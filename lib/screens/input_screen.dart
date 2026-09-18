@@ -4,13 +4,6 @@ import '../widgets/reusable_card_widget.dart';
 import '../widgets/buttom_button_widget.dart';
 import 'result_screen.dart';
 
-const kCardColor = Color(0xFF1D1E33);
-const kInactiveCardColor = Color(0xFF111328);
-const kAccentColor = Color(0xFFEB1555);
-const kTextColor = Color(0xFF8D8E98);
-
-enum Gender { male, female }
-
 class InputScreen extends StatefulWidget {
   const InputScreen({super.key});
 
@@ -19,7 +12,7 @@ class InputScreen extends StatefulWidget {
 }
 
 class _InputScreenState extends State<InputScreen> {
-  Gender selectedGender = Gender.male;
+  bool isMale = true;
   int height = 150;
   int weight = 60;
   int age = 26;
@@ -27,118 +20,227 @@ class _InputScreenState extends State<InputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BMI Calculator'),
-      ),
+      appBar: AppBar(title: const Text('BMI Calculator'), centerTitle: true),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Row 1: Gender
           Expanded(
             child: Row(
               children: [
                 Expanded(
                   child: ReusableCard(
-                    color: selectedGender == Gender.male
-                        ? kCardColor
-                        : kInactiveCardColor,
-                    onTap: () => setState(() => selectedGender = Gender.male),
-                    child: const IconContent(icon: Icons.male, label: 'Male'),
+                    color: isMale
+                        ? const Color(0xFF1D1E33)
+                        : const Color(0xFF111328),
+                    onTap: () {
+                      setState(() {
+                        isMale = true;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.male, size: 70, color: Colors.white),
+                        SizedBox(height: 10),
+                        Text(
+                          'Male',
+                          style: TextStyle(
+                            color: Color(0xFF8D8E98),
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
-                    color: selectedGender == Gender.female
-                        ? kCardColor
-                        : kInactiveCardColor,
-                    onTap: () => setState(() => selectedGender = Gender.female),
-                    child:
-                        const IconContent(icon: Icons.female, label: 'Female'),
+                    color: !isMale
+                        ? const Color(0xFF1D1E33)
+                        : const Color(0xFF111328),
+                    onTap: () {
+                      setState(() {
+                        isMale = false;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.female, size: 70, color: Colors.white),
+                        SizedBox(height: 10),
+                        Text(
+                          'Female',
+                          style: TextStyle(
+                            color: Color(0xFF8D8E98),
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-
-          // Row 2: Height
           Expanded(
             child: ReusableCard(
-              color: kCardColor,
+              color: const Color(0xFF1D1E33),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Height',
-                      style: TextStyle(color: kTextColor, fontSize: 18.0)),
+                  const Text(
+                    'Height',
+                    style: TextStyle(color: Color(0xFF8D8E98), fontSize: 18),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
                     children: [
-                      Text('$height',
-                          style: const TextStyle(
-                              fontSize: 40.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                      const Text('cm',
-                          style: TextStyle(color: kTextColor, fontSize: 16.0)),
+                      Text(
+                        '$height',
+                        style: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const Text(
+                        'cm',
+                        style: TextStyle(
+                          color: Color(0xFF8D8E98),
+                          fontSize: 16,
+                        ),
+                      ),
                     ],
                   ),
-                  SliderTheme(
-                    data: SliderTheme.of(context).copyWith(
-                      activeTrackColor: kAccentColor,
-                      inactiveTrackColor: Colors.grey.shade700,
-                      thumbColor: kAccentColor,
-                      overlayColor: kAccentColor.withOpacity(0.2),
-                      thumbShape:
-                          const RoundSliderThumbShape(enabledThumbRadius: 8.0),
-                    ),
-                    child: Slider(
-                      value: height.toDouble(),
-                      min: 100.0,
-                      max: 220.0,
-                      onChanged: (double newValue) {
-                        setState(() {
-                          height = newValue.round();
-                        });
-                      },
-                    ),
+                  Slider(
+                    value: height.toDouble(),
+                    min: 100,
+                    max: 220,
+                    activeColor: const Color(0xFFEB1555),
+                    inactiveColor: Colors.grey,
+                    onChanged: (value) {
+                      setState(() {
+                        height = value.round();
+                      });
+                    },
                   ),
                 ],
               ),
             ),
           ),
-
-          // Row 3: Weight & Age
           Expanded(
             child: Row(
               children: [
                 Expanded(
                   child: ReusableCard(
-                    color: kCardColor,
-                    child: CounterContent(
-                      label: 'Weight',
-                      value: weight,
-                      onDecrement: () => setState(() => weight--),
-                      onIncrement: () => setState(() => weight++),
+                    color: const Color(0xFF1D1E33),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Weight',
+                          style: TextStyle(
+                            color: Color(0xFF8D8E98),
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          '$weight',
+                          style: const TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  weight--;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.remove_circle,
+                                size: 36,
+                                color: Colors.white,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  weight++;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.add_circle,
+                                size: 36,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
-                    color: kCardColor,
-                    child: CounterContent(
-                      label: 'Age',
-                      value: age,
-                      onDecrement: () => setState(() => age--),
-                      onIncrement: () => setState(() => age++),
+                    color: const Color(0xFF1D1E33),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Age',
+                          style: TextStyle(
+                            color: Color(0xFF8D8E98),
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          '$age',
+                          style: const TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  age--;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.remove_circle,
+                                size: 36,
+                                color: Colors.white,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  age++;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.add_circle,
+                                size: 36,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
           ),
-
-          // Bottom Button
           BottomButton(
             buttonTitle: 'Calculate',
             onTap: () {
@@ -153,75 +255,6 @@ class _InputScreenState extends State<InputScreen> {
           ),
         ],
       ),
-    );
-  }
-}
-
-// Helper Widget for Icon Content
-class IconContent extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  const IconContent({super.key, required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, size: 70.0, color: Colors.white),
-        const SizedBox(height: 10.0),
-        Text(label, style: const TextStyle(color: kTextColor, fontSize: 18.0)),
-      ],
-    );
-  }
-}
-
-// Helper Widget for Counter Content
-class CounterContent extends StatelessWidget {
-  final String label;
-  final int value;
-  final VoidCallback onIncrement;
-  final VoidCallback onDecrement;
-
-  const CounterContent({
-    super.key,
-    required this.label,
-    required this.value,
-    required this.onIncrement,
-    required this.onDecrement,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(label, style: const TextStyle(color: kTextColor, fontSize: 18.0)),
-        Text('$value',
-            style: const TextStyle(
-                fontSize: 36.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FloatingActionButton.small(
-              heroTag: '$label-dec',
-              onPressed: onDecrement,
-              backgroundColor: Colors.grey.shade700,
-              child: const Icon(Icons.remove, color: Colors.white),
-            ),
-            const SizedBox(width: 10.0),
-            FloatingActionButton.small(
-              heroTag: '$label-inc',
-              onPressed: onIncrement,
-              backgroundColor: Colors.grey.shade700,
-              child: const Icon(Icons.add, color: Colors.white),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }

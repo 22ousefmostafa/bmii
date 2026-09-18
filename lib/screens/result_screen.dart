@@ -2,82 +2,73 @@ import 'package:flutter/material.dart';
 import '../widgets/reusable_card_widget.dart';
 import '../widgets/buttom_button_widget.dart';
 
-const kCardColor = Color(0xFF1D1E33);
-const kTextColor = Color(0xFF8D8E98);
-
 class ResultScreen extends StatelessWidget {
   final double bmiResult;
 
   const ResultScreen({super.key, required this.bmiResult});
 
-  String get resultText {
-    if (bmiResult >= 25) return 'Overweight';
-    if (bmiResult > 18.5) return 'Normal';
-    return 'Underweight';
-  }
-
-  String get interpretation {
-    if (bmiResult >= 25) {
-      return 'You have a higher than normal body weight. Try to exercise more.';
-    } else if (bmiResult > 18.5) {
-      return 'You Have a Normal Body Weight, Good Job.';
-    } else {
-      return 'You have a lower than normal body weight. You can eat a bit more.';
-    }
-  }
-
-  Color get resultColor {
-    if (bmiResult >= 25) return Colors.red;
-    if (bmiResult > 18.5) return const Color(0xFF24D876);
-    return Colors.orange;
-  }
-
   @override
   Widget build(BuildContext context) {
+    String resultText = 'Normal';
+    Color resultColor = const Color(0xFF24D876);
+    String interpretation = 'You have a normal body weight. Good job!';
+
+    if (bmiResult >= 25) {
+      resultText = 'Overweight';
+      resultColor = Colors.red;
+      interpretation =
+          'You have a higher than normal body weight. Try to exercise more.';
+    } else if (bmiResult < 18.5) {
+      resultText = 'Underweight';
+      resultColor = Colors.orange;
+      interpretation =
+          'You have a lower than normal body weight. You can eat a bit more.';
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BMI Calculator'),
-        automaticallyImplyLeading: false,
-      ),
+      appBar: AppBar(title: const Text('BMI Calculator'), centerTitle: true),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAlignment: CrossAlignment.stretch,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: EdgeInsets.all(15.0),
             child: Text(
               'Your Result',
               style: TextStyle(
-                  fontSize: 32.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
           Expanded(
             child: ReusableCard(
-              color: kCardColor,
+              color: const Color(0xFF1D1E33),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
                     resultText.toUpperCase(),
                     style: TextStyle(
-                        color: resultColor,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold),
+                      color: resultColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     bmiResult.toStringAsFixed(1),
                     style: const TextStyle(
-                        fontSize: 80.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      fontSize: 70,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      interpretation,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 18.0, color: kTextColor),
+                  Text(
+                    interpretation,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFF8D8E98),
                     ),
                   ),
                 ],
@@ -86,7 +77,9 @@ class ResultScreen extends StatelessWidget {
           ),
           BottomButton(
             buttonTitle: 'Re - Calculate',
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              Navigator.pop(context);
+            },
           ),
         ],
       ),
