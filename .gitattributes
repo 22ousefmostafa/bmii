@@ -1,0 +1,24 @@
+# Treat generated platform files as vendored so GitHub shows Dart as the main language
+android/** linguist-vendored
+ios/** linguist-vendored
+web/** linguist-vendored
+
+*.gradle linguist-vendored
+*.java linguist-vendored
+*.kt linguist-vendored
+*.swift linguist-vendored
+*.m linguist-vendored
+*.h linguist-vendored
+*.xml linguist-vendored
+*.pbxproj linguist-vendored
+*.storyboard linguist-vendored
+*.plist linguist-vendored
+*.png linguist-vendored
+*.jpg linguist-vendored
+*.jpeg linguist-vendored
+*.webp linguist-vendored
+*.gif linguist-vendored
+*.ico linguist-vendored
+
+# Keep Dart as the language used for the app logic
+*.dart linguist-language=Dart
